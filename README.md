@@ -162,12 +162,7 @@ UdaPlay/
 │
 ├── notebooks/
 │   ├── 01_rag_pipeline.ipynb       # Build & populate ChromaDB
-│   ├── 02_agent_demo.ipynb         # Agent queries with tool traces
-│   └── udacity_submission/
-│       ├── Udaplay_01_solution_project.ipynb
-│       └── Udaplay_02_solution_project.ipynb
-│
-├── lib/                       # Original lib (Udacity notebooks depend on this — do not delete)
+│   └── 02_agent_demo.ipynb         # Agent queries with all 7 tools + memory
 │
 ├── app/
 │   └── streamlit_app.py       # UI with memory viewer, source badges, JSON report
