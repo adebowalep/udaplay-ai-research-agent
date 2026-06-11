@@ -18,31 +18,27 @@ Built as a Udacity capstone project and refactored into a production-quality Pyt
 
 ```mermaid
 flowchart LR
-    User([Question]) --> Agent
+    U([Question]) --> AG[UdaPlay Agent]
 
-    subgraph Agent Workflow
-        A1[search_memory] --> A2[retrieve_game]
-        A2 --> A3[evaluate_retrieval]
-        A3 -->|high confidence| A4[format_report]
-        A3 -->|memory match| A5[format_report\nmemory source]
-        A3 -->|low confidence| A6[game_web_search]
-        A6 --> A7[save_memory]
-        A7 --> A8[format_report\nweb source]
-    end
+    AG --> SM[search_memory]
+    SM --> RG[retrieve_game]
+    RG --> ER[evaluate_retrieval]
 
-    A4 --> ANS([Structured Answer])
-    A5 --> ANS
-    A8 --> ANS
+    ER -->|High confidence| FR1[format_report local]
+    ER -->|Memory match| FR2[format_report memory]
+    ER -->|Low confidence| WS[game_web_search]
 
-    subgraph Storage
-        VDB[(ChromaDB\nlocal RAG)]
-        LTM[(long_term_memory.json\npersistent)]
-        STM[(ShortTermMemory\nin-session)]
-    end
+    WS --> SAV[save_memory]
+    SAV --> FR3[format_report web]
 
-    A1 & A7 --> LTM
-    A2 --> VDB
-    Agent --> STM
+    FR1 --> ANS([Structured Answer])
+    FR2 --> ANS
+    FR3 --> ANS
+
+    RG --> VDB[(ChromaDB)]
+    SM --> LTM[(long_term_memory.json)]
+    SAV --> LTM
+    AG --> STM[(ShortTermMemory)]
 ```
 
 The agent follows a **7-step workflow** for every question:
@@ -165,11 +161,13 @@ UdaPlay/
 │   └── ...                    # llm, messages, parsers, tooling, rag, documents
 │
 ├── notebooks/
-│   ├── 01_rag_pipeline.ipynb  # Build & populate ChromaDB
-│   └── 02_agent_demo.ipynb    # Agent queries with tool traces
+│   ├── 01_rag_pipeline.ipynb       # Build & populate ChromaDB
+│   ├── 02_agent_demo.ipynb         # Agent queries with tool traces
+│   └── udacity_submission/
+│       ├── Udaplay_01_solution_project.ipynb
+│       └── Udaplay_02_solution_project.ipynb
 │
-├── Udaplay_01_solution_project.ipynb  # Udacity submission (do not edit)
-├── Udaplay_02_solution_project.ipynb  # Udacity submission (do not edit)
+├── lib/                       # Original lib (Udacity notebooks depend on this — do not delete)
 │
 ├── app/
 │   └── streamlit_app.py       # UI with memory viewer, source badges, JSON report
@@ -282,20 +280,6 @@ Test coverage:
 | Testing | pytest + unittest.mock (no API keys needed) |
 | Package management | pyproject.toml + pip install -e . |
 
----
-
-## Udacity Rubric Compliance
-
-| Requirement | Implementation |
-|---|---|
-| RAG pipeline over local files | `notebooks/01_rag_pipeline.ipynb`, `src/udaplay/loaders.py`, `src/udaplay/vector_db.py` |
-| `retrieve_game` tool | `src/udaplay/tools.py` → `make_game_tools()` |
-| `evaluate_retrieval` tool (LLM-as-judge) | `src/udaplay/tools.py` → `EvaluationReport` |
-| `game_web_search` tool (Tavily) | `src/udaplay/tools.py` |
-| Stateful agent | `src/udaplay/agents.py` + `src/udaplay/state_machine.py` |
-| Long-term memory persistence | `src/udaplay/long_term_memory.py` → `data/memory/long_term_memory.json` |
-| ≥ 3 example queries with citations | `notebooks/02_agent_demo.ipynb`, `outputs/sample_agent_runs.md` |
-| Solution notebooks | `Udaplay_01_solution_project.ipynb`, `Udaplay_02_solution_project.ipynb` |
 
 ---
 
