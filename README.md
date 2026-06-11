@@ -195,7 +195,7 @@ UdaPlay/
 ### 1. Clone and install
 
 ```bash
-git clone <your-repo-url>
+git clone git@github.com:adebowalep/udaplay-ai-research-agent.git
 cd UdaPlay
 pip install -e ".[dev]"
 ```
