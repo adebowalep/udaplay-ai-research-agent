@@ -1,8 +1,35 @@
+# Secrets
 .env
+
+# Python
 __pycache__/
 *.pyc
+*.pyo
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# macOS
 .DS_Store
 __MACOSX/
-.ipynb_checkpoints/
+
+# Vector database (generated — rebuild with notebook 01)
 chroma_db/
 chromadb/
+
+# Agent memory (generated at runtime — do not commit)
+agent_memory.json
+data/memory/
+
+# pytest
+.pytest_cache/
+
+# IDE / editors
+.vscode/
+.idea/
+*.swp

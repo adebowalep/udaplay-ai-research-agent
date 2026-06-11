@@ -1,0 +1,14 @@
+# UdaPlay — development & testing dependencies
+# Install: pip install -r requirements-dev.txt
+#
+# These are NOT needed to run the agent or the Streamlit UI.
+
+-r requirements.txt
+
+# Testing
+pytest>=7.4
+pytest-mock>=3.12
+
+# Linting / formatting
+ruff>=0.4
+black>=24.0
